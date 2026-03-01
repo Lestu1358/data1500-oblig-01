@@ -1,10 +1,10 @@
 # Besvarelse - Refleksjon og Analyse
 
-**Student:** [Ditt navn]
+**Student:** [Leo Alexander Stubbene]
 
-**Studentnummer:** [Ditt studentnummer]
+**Studentnummer:** [1358]
 
-**Dato:** [Innleveringsdato]
+**Dato:** [01.03.2026]
 
 ---
 
@@ -13,12 +13,20 @@
 ### Oppgave 1.1: Entiteter og attributter
 
 **Identifiserte entiteter:**
-
-[Skriv ditt svar her - list opp alle entitetene du har identifisert]
-
 **Attributter for hver entitet:**
 
-[Skriv ditt svar her - list opp attributtene for hver entitet]
+I casen vil jeg si det er fem sentrale entiteter. De 5 forskjellige er: kunde, stasjon, sykkel, lås og utleie.
+
+Kunde er en viktig entitet fordi det er kundene som registrerer seg og leier sykler. Hver enkelte kunde får en unik ID altså en customer_id, som gjør at vi kan skille de fra hverandre i databasen. I tillegg lagres epost og telefonnummer, og disse burde være unike slik at samme person ikke registreres flere ganger. Vi lagrer også fornavn og etternavn for å vite hvem kunden er. 
+
+Stasjon er stedet der sykler kan hentes og leveres, og hver stasjon har en unik ID, altså station_id og et navn. Vi trenger denne entiteten slik at systemet holder oversikt over hvor syklene befinner seg og hvor en utleier starter og avsluttes. 
+
+Sykkel representerer alle sykler i systemet. Hver sykkel har en unik ID (bike_id). Vi lagrer også hvilken stasjon og lås sykkelen står på, slik at vi alltid vet hvor den befinner seg. Når sykkelen leies ut, er disse feltene tomme (NULL). På den måten kan vi skille mellom hvilke sykler som er i bruk og hvilke som er tilgjengelige. 
+
+Lås er en egen entitet fordi hver stasjon har flere låser, og en sykkel festes til en bestemt lås. Hver lås har også sin egen unik ID (lock_id) og tilhører en stasjon. Lås trengs for å vite hvilke av låsene som sykkelen er koblet til når den er parkert. 
+
+Utleie beskriver selve leieperioden mellom kunde og en sykkel. Den vil registrere når sykkelen ble leid og når den er tilbake på plass. Den vil også lagre hvilken kunde og hvilken sykkel det gjelder, samtidig som leiebeløpet. Vi trenger denne entiteten slik at vi kan ha oversikt over bruk og betaling. 
+
 
 ---
 
@@ -26,31 +34,32 @@
 
 **Valgte datatyper og begrunnelser:**
 
-[Skriv ditt svar her - forklar hvilke datatyper du har valgt for hver attributt og hvorfor]
+Jeg har brukt SERIAL som datatype for primærnøkler fordi det automatisk generer unike ID-er. Tekstfelt som navn, adresse, mobilnummer og epost er lagret som VARCHAR, da dette er tekstverdier med variabel lengde. Tidspunktene returned_at og rented_at er lagret som TIMESTAMP fordi vi må registrere både klokkeslett og dato. Leiebeløpet er lagret som NUMERIC(10,2) for å sikre presis lagring av penger. Fremmednøkler er lagret som INTEGER, fordi de viser til primærnøkler som også er heltall. 
 
 **`CHECK`-constraints:**
 
-[Skriv ditt svar her - list opp alle CHECK-constraints du har lagt til og forklar hvorfor de er nødvendige]
+Jeg har lagt til CHECK constraints for å sikre gyldige verdier i databasen. Mobilnummer har en contstraint som sikrer at det bare inneholder riktig lengde og tall. Epost har en enkel constraint som sikrer at den inneholder @. Låsnummeret må være større en 0 for å unngå ugyldige nummer. Leiebeløp kan ikke være negativt, så jeg la til en constraint som sikrer at beløpet er null eller større en 0. Det er også en constraint som sikrer at innleveringstid ikke kan være før utlevert tid. Disse constraintene er nødvendige for å sikre dataintegritet og hindre feilregistreringer. 
+
 
 **ER-diagram:**
 
-[Legg inn mermaid-kode eller eventuelt en bildefil fra `mermaid.live` her]
+[https://mermaid.ai/d/d10873ad-9652-484e-8c99-382920a1b2a5]
 
 ---
-
 ### Oppgave 1.3: Primærnøkler
 
 **Valgte primærnøkler og begrunnelser:**
 
-[Skriv ditt svar her - forklar hvilke primærnøkler du har valgt for hver entitet og hvorfor]
+For hver entitet har jeg valgt en egen ID som primærnøkkel: customer_id, station_id, lock_id, rental_id og bike_id. Disse bruker for å identifisere hver rad unikt i databasen. rental_id er nødvendig for utleie da en kunde kan leie samme sykkel flere ganger, og hver leie må kunne skilles fra de andre. 
 
 **Naturlige vs. surrogatnøkler:**
 
-[Skriv ditt svar her - diskuter om du har brukt naturlige eller surrogatnøkler og hvorfor]
+Jeg har valgt å bruke surrogatnøkler, istedenfor naturlige nøkler. Selv om for eksempel mobilnummer eller epost kunne vært naturlige nøkler for kunde, kunne disse verdiene endret seg over tid. Surrogatnøkler er derfor mer stabile og enklere å bruke i relasjoner mellom tabeller. 
 
 **Oppdatert ER-diagram:**
 
-[Legg inn mermaid-kode eller eventuelt en bildefil fra `mermaid.live` her]
+https://mermaid.ai/d/47e70da0-c815-41b5-bc3d-3f0aee11d78a
+
 
 ---
 
@@ -58,15 +67,27 @@
 
 **Identifiserte forhold og kardinalitet:**
 
-[Skriv ditt svar her - list opp alle forholdene mellom entitetene og angi kardinalitet]
+Stasjon -> lås: en-til-mange. 
+Stasjon -> Sykkel: en-til-mange. 
+Lås -> Sykkel: en-til-en.
+Kunde <-> Sykkel(via utleie): mange-til-mange løses opp av utleie. 
+Kunde -> Utleie: en-til-mange.
+Sykkel -> Utleie: en-til-mange. 
+
 
 **Fremmednøkler:**
 
-[Skriv ditt svar her - list opp alle fremmednøklene og forklar hvordan de implementerer forholdene]
+lock.station_id -> station.station_id implementerer at hver lås tilhører en stasjon. 
+bike.current_station_id -> station.station_id implementerer hvor sykkelen står. Feltet kan være NULL når sykkelen er utleid. 
+bike.current_lock_id -> lock.lock_id implementerer hvilken lås sykkelen er festet i. Feltet kan også være NULL når sykkelen er utleid. 
+rental.customer_id -> customer.customer_id implementerer at en utleie tilhører en kunde. 
+rental.bike_id -> bike.bike_id implementerer at en utleie gjelder en sykkel. Dette gjør at kunde og sykkel blir til mange-til-mange over tid, men "løses opp" ved koblingstabellen utleie. 
+
 
 **Oppdatert ER-diagram:**
 
-[Legg inn mermaid-kode eller eventuelt en bildefil fra `mermaid.live` her]
+https://mermaid.ai/d/59aade10-cfac-4262-b5c3-76952815ff6a
+
 
 ---
 
