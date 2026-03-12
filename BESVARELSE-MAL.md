@@ -121,11 +121,11 @@ SQL-skriptet er lagt i mappen init scripts med navnet 01-init-database.sql.
 
 **Antall testdata:**
 
-- Kunder: [antall]
-- Sykler: [antall]
-- Sykkelstasjoner: [antall]
-- Låser: [antall]
-- Utleier: [antall]
+- Kunder: [5]
+- Sykler: [100]
+- Sykkelstasjoner: [5]
+- Låser: [100]
+- Utleier: [50]
 
 ---
 
@@ -148,7 +148,18 @@ ORDER BY table_name;
 **Resultat:**
 
 ```
-[Skriv resultatet av spørringen her - list opp alle tabellene som ble opprettet]
+Databasen ble startet med docker compose up -d. Deretter koblet jeg meg til PostgreSQL containeren med docker exec -it data1500-postgres psql -U admin -d oblig01. Initialiseringsskriptet ble kjørt uten feil, og tabellene ble opprettet og fylt med testdata. 
+
+RESULTAT TERMINAL:
+------------
+ bike
+ customer
+ lock
+ rental
+ station
+(5 rows)
+
+
 ```
 
 ---
@@ -160,19 +171,26 @@ ORDER BY table_name;
 **SQL for å opprette rolle:**
 
 ```sql
-[Skriv din SQL-kode for å opprette rollen 'kunde' her]
+CREATE ROLE kunde;
+
 ```
 
 **SQL for å opprette bruker:**
 
 ```sql
-[Skriv din SQL-kode for å opprette brukeren 'kunde_1' her]
+CREATE USER kunde_1 WITH password 'kunde123';
+GRANT kunde TO kunde_1;
+
 ```
 
 **SQL for å tildele rettigheter:**
 
 ```sql
-[Skriv din SQL-kode for å tildele rettigheter til rollen her]
+GRANT SELECT ON customer TO kunde;
+GRANT SELECT ON station TO kunde;
+GRANT SELECT ON lock TO kunde;
+GRANT SELECT ON bike TO kunde;
+GRANT SELECT ON rental TO kunde;
 ```
 
 ---
