@@ -95,19 +95,19 @@ https://mermaid.ai/d/59aade10-cfac-4262-b5c3-76952815ff6a
 
 **Vurdering av 1. normalform (1NF):**
 
-[Skriv ditt svar her - forklar om datamodellen din tilfredsstiller 1NF og hvorfor]
+Datamodellen oppfyller 1NF fordi alle tabeller har en primærnøkkel, og hvert felt inneholder bare en verdi. Det vil si at vi ikke har flere verdier i samme kolonne eller lister i feltene. 
 
 **Vurdering av 2. normalform (2NF):**
 
-[Skriv ditt svar her - forklar om datamodellen din tilfredsstiller 2NF og hvorfor]
+Datamodellen oppfyller 2NF fordi alle attributtene er avhengige av hele primærnøkkelen. Siden tabellene bruker enkle primærnøkler (IDer) oppstår det ikke delvise avhengigheter. 
 
 **Vurdering av 3. normalform (3NF):**
 
-[Skriv ditt svar her - forklar om datamodellen din tilfredsstiller 3NF og hvorfor]
+Datamodellen oppfyller også 3NF siden atributtene kun er avhengige av primærnøkkelen i tabellen. Informasjon om kunder, stasjoner, sykler, låser og utleie er delt opp i egne tabeller, som bidrar til redusering av duplisert data. 
 
 **Eventuelle justeringer:**
 
-[Skriv ditt svar her - hvis modellen ikke var på 3NF, forklar hvilke justeringer du har gjort]
+Det var ikke nødvendig å gjøre store endringer for å oppnå 3NF. Datamodellen hadde allerede strukturen for at hver type informasjon lå i sin egen tabell. 
 
 ---
 
@@ -117,7 +117,7 @@ https://mermaid.ai/d/59aade10-cfac-4262-b5c3-76952815ff6a
 
 **Plassering av SQL-skript:**
 
-[Bekreft at du har lagt SQL-skriptet i `init-scripts/01-init-database.sql`]
+SQL-skriptet er lagt i mappen init scripts med navnet 01-init-database.sql.
 
 **Antall testdata:**
 
