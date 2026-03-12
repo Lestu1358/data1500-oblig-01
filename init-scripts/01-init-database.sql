@@ -82,6 +82,16 @@ FROM generate_series(1,50);
 
 
 -- DBA setninger (rolle: kunde, bruker: kunde_1)
+CREATE ROLE kunde;
+CREATE USER kunde_1 WITH password 'kunde123';
+GRANT kunde TO kunde_1;
+
+GRANT SELECT ON customer TO kunde;
+GRANT SELECT ON station TO kunde;
+GRANT SELECT ON lock TO kunde;
+GRANT SELECT ON bike TO kunde;
+GRANT SELECT ON rental TO kunde;
+
 
 
 
