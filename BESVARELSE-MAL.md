@@ -376,6 +376,8 @@ Jeg har lært at det er viktig å strukturere data riktig og normalisering for �
 
 [Bekreft at du har lagt SQL-spørringene i `test-scripts/queries.sql`]
 
+SQL-spørringene er lagret i filen test-scripts/queries.sql.
+
 
 **Eventuelle feil og rettelser:**
 
