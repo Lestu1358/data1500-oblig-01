@@ -274,31 +274,33 @@ Det vil være sånn ca 12 MB lagringsplass for første år.
 
 **Problem 1: Redundans**
 
-[Skriv ditt svar her - gi konkrete eksempler fra CSV-filen som viser redundans]
+I en CSV fil vil mye informasjon bli gjentatt flere ganger. For eksempel vil informasjon om samme kunde eller samme sykkelstasjon kunne stå i mange rader dersom kunden har flere utleier. Dette vil føre til redundans fordi den samme informasjonen lagres flere ganger istedenfor en gang. 
 
 **Problem 2: Inkonsistens**
 
-[Skriv ditt svar her - forklar hvordan redundans kan føre til inkonsistens med eksempler]
+Redundans kan føre til inkonsistens dersom data oppdateres forskjellig i ulike rader. For eksempel kan en stasjon ha samme navn i flere rader i CSV filen. Hvis navnet endres i en rad, men ikke i de andre vil databasen inneholde ulike verdier for samme stasjon. 
 
 **Problem 3: Oppdateringsanomalier**
 
-[Skriv ditt svar her - diskuter slette-, innsettings- og oppdateringsanomalier]
+I en flat fil kan det oppstå flere typer oppdateringsproblemer. En oppdateringsanomali kan oppstå hvis informasjon om en stasjon må endres i mange rader. En sletteanomali kan oppstå dersom man sletter en rad med en utleie og samtidig mister viktig informasjon om kunden eller sykkelen. 
+En innsettingsanomali kan oppstå hvis man ønsker å registrere en ny stasjon eller kunde uten at det finnes uteie enda. 
+
 
 **Fordeler med en indeks:**
 
-[Skriv ditt svar her - forklar hvorfor en indeks ville gjort spørringen mer effektiv]
+En indeks vil gjøre det raskere å finne data i en database. Istedenfor å gå gjennom hele tabellen rad for rad, kan databasen bruke indeksen til å finne riktig rad direkte. Dette gjør spørringer mer effektive, spesielt når tabellene inneholder mange rader. 
 
 **Case 1: Indeks passer i RAM**
 
-[Skriv ditt svar her - forklar hvordan indeksen fungerer når den passer i minnet]
+Hvis indeksen får plass i RAM, kan databasen lese den veldig raskt fra minnet. Dette gjør at søk etter data blir mye raskere fordi databasen slipper å lese fra disk hver gang. 
 
 **Case 2: Indeks passer ikke i RAM**
 
-[Skriv ditt svar her - forklar hvordan flettesortering kan brukes]
+Hvis indeksen er for stor til å få plass i RAM, må databasen lese deler av den fra disk. I slike tilfeller kan algoritmer som flettesortering brukes for å håndtere store datamengder mer effektivt ved å dele opp data i mindre deler og kombinere dem igjen. 
 
 **Datastrukturer i DBMS:**
 
-[Skriv ditt svar her - diskuter B+-tre og hash-indekser]
+Databaser bruker ofte datastrukturer som B+-trær og hash-indekser for å organisere data. B+-trær brukes ofte for indekser fordi de gjør det effektivt å søke sortert data. Hash-indekser brukes for veldig raske oppslag når man søker etter en bestemt verdi. 
 
 ---
 
@@ -306,17 +308,19 @@ Det vil være sånn ca 12 MB lagringsplass for første år.
 
 **Foreslått datastruktur:**
 
-[Skriv ditt svar her - f.eks. heap-fil, LSM-tree, eller annen egnet datastruktur]
+En egnet datastruktur for logging er en LSM-Tree, også kalt log structured merge tree. 
 
 **Begrunnelse:**
 
+LSM-Tree er godt egnet for systemer som skriver mye data, fordi data først skrives raskt til minne og senere lagres på disk. Dette gjør skriveoperasjoner mer effektive. 
+
 **Skrive-operasjoner:**
 
-[Skriv ditt svar her - forklar hvorfor datastrukturen er egnet for mange skrive-operasjoner]
+LSM-tree er spesielt effektiv for mange skriveoperasjoner fordi ny data først lagres i minnet og deretter skrives til disk i større blokker. Dette reduserer antall diskoperasjoner og gjør skriving raskere. 
 
 **Lese-operasjoner:**
 
-[Skriv ditt svar her - forklar hvordan datastrukturen håndterer sjeldne lese-operasjoner]
+Selv om leseoperasjoner kan være litt tregere enn i andre datastrukturer, fungere LSM-tree godt når lesing skjer sjeldnere. Systemet kan slå opp data ved å sjekke både minne og disk. 
 
 ---
 
@@ -324,23 +328,23 @@ Det vil være sånn ca 12 MB lagringsplass for første år.
 
 **Hvor bør validering gjøres:**
 
-[Skriv ditt svar her - argumenter for validering i ett eller flere lag]
+Validering bør gjøres i flere lag i systemet, både i nettleseren, applikasjonslaget og databasen. Dette gir bedre sikkerhet og sikrer at ugyldige data ikke lagres. 
 
 **Validering i nettleseren:**
 
-[Skriv ditt svar her - diskuter fordeler og ulemper]
+Validering i nettleseren gir rask tilbakemelding til brukeren og kan forhindre enkle feil før data sendes til serveren. Ulempen er at brukeren kan omgå denne valideringen. 
 
 **Validering i applikasjonslaget:**
 
-[Skriv ditt svar her - diskuter fordeler og ulemper]
+Validering i applikasjonsaget er viktig fordi det kontrollerer data før de sendes til databasen. Dette gir bedre kontroll over forretningsregler og logikk. 
 
 **Validering i databasen:**
 
-[Skriv ditt svar her - diskuter fordeler og ulemper]
+Validering i databasen sikrer dataintegritet ved hjelp av constraints, som for eksempel NOT NULL eller CHECK. Ulempen er at feil først oppdages etter at data er sendt til databasen. 
 
 **Konklusjon:**
 
-[Skriv ditt svar her - oppsummer hvor validering bør gjøres og hvorfor]
+Den beste løsningen vil jeg si er å bruke validering i alle lag. Nettlseren gir rask tilbakemelding til brukeren. Applikasjonslaget håndterer logikk og regler, og databasen sikrer at bare gyldige data lagres. 
 
 ---
 
@@ -348,21 +352,21 @@ Det vil være sånn ca 12 MB lagringsplass for første år.
 
 **Hva har du lært så langt i emnet:**
 
-[Skriv din refleksjon her - diskuter sentrale konsepter du har lært]
+Så langt i emnet har jeg lært om relasjonsdatabaser, databasedesing og normalisering. Jeg har også lært hvordan man lager tabeller, primærnøkler, fremmednøkler og hvordan man bruker SQL til å hente og lagre data.
 
 **Hvordan har denne oppgaven bidratt til å oppnå læringsmålene:**
 
-[Skriv din refleksjon her - koble oppgaven til læringsmålene i emnet]
+Denne oppgaven har hjulpet meg med å forstå hvordan man designer en database fra en case beskrivelse. Jeg har fått erfaring med å lage et ER diagram, implementere databasen i PostgreSQL og bruker Docker til å kjøre databasen. 
 
 Se oversikt over læringsmålene i en PDF-fil i Canvas https://oslomet.instructure.com/courses/33293/files/folder/Plan%20v%C3%A5ren%202026?preview=4370886
 
 **Hva var mest utfordrende:**
 
-[Skriv din refleksjon her - diskuter hvilke deler av oppgaven som var mest krevende]
+Det jeg slet mest med var å forstå hvordan entiteter og relasjoner skulle modelleres i databasen, og hvordan man skulle sette opp databsen i Docker. 
 
 **Hva har du lært om databasedesign:**
 
-[Skriv din refleksjon her - reflekter over prosessen med å designe en database fra bunnen av]
+Jeg har lært at det er viktig å strukturere data riktig og normalisering for å unngå redundans og inkonsistens. Jeg har også lært hvordan primærnøkler og fremmednøkler brukes for å koble tabeller sammen. 
 
 ---
 
@@ -375,7 +379,7 @@ Se oversikt over læringsmålene i en PDF-fil i Canvas https://oslomet.instructu
 
 **Eventuelle feil og rettelser:**
 
-[Skriv ditt svar her - hvis noen tester feilet, forklar hva som var feil og hvordan du rettet det]
+Under utviklingen oppsto det noen mindre feil i SQL-spørringene, men disse ble rettet ved å justere syntaksen og kontrollere at tabellnavn og kolonnenavn stemte med databasen. 
 
 ---
 
