@@ -200,12 +200,22 @@ GRANT SELECT ON rental TO kunde;
 **SQL for VIEW:**
 
 ```sql
-[Skriv din SQL-kode for VIEW her]
+CREATE VIEW customer_rentals AS
+SELECT 
+    r.rental_id,
+    r.customer_id,
+    r.bike_id,
+    r.rented_at,
+    r.returned_at,
+    r.amount
+FROM rental r;
+
+GRANT SELECT ON customer_rentals TO kunde;
 ```
 
 **Ulempe med VIEW vs. POLICIES:**
 
-[Skriv ditt svar her - diskuter minst én ulempe med å bruke VIEW for autorisasjon sammenlignet med POLICIES]
+En ulempe med å bruke VIEW for autorisasjon er at den kan bli vanskelig å vedlikeholde hvis databasen blir større eller mer kompleks. Views gir bare en filtrert visning av data, men policies kan kontrollere tilgang mer dynamisk og på radnivå. Dette gjør policies mer fleksible og sikrere i større systemer. 
 
 ---
 
@@ -221,15 +231,40 @@ GRANT SELECT ON rental TO kunde;
 
 **Totalt antall utleier per år:**
 
-[Skriv din utregning her]
+Høyssesong varer i 5 mnd med 20 000 utleier per måned.
+20 000 x 5 = 100 000
+
+Mellomsesong varer i 4 mnd med 5000 utleier per måned.
+5000 x 4 = 20000
+
+Lavsesong varer i 3 mnd med 500 utleier per måned. 
+500 x 3 = 1500
+
+Totalt antall utleier per år blir da: 
+100 000 + 20 000 + 1500 = 121500 utleier per år. 
 
 **Estimat for lagringskapasitet:**
 
-[Skriv din utregning her - vis hvordan du har beregnet lagringskapasiteten for hver tabell]
+Vi antar omtrent følgende størrelse per rad:
+- Customer ca 150 bytes per rad.
+- Station ca 100 bytes per rad.
+- Lock ca 50 bytes per rad.
+- Bike ca 50 bytes per rad.
+- Rental ca 100 bytes per rad. 
+
+Antall rader:
+5 kunder -> 5 x 150 = 750 bytes.
+5 stasjoner -> 5 x 100 = 500 bytes. 
+100 låser -> 100 x 50 = 5000 bytes.
+100 sykkler -> 100 x 50 = 5000 bytes.
+121500 utleier -> 121500 x 100 = 12150000 bytes.  
+
 
 **Totalt for første år:**
 
-[Skriv ditt estimat her]
+Totalg lagringsbehov:
+750 + 500 + 5000 + 12150000 = 12161250
+Det vil være sånn ca 12 MB lagringsplass for første år. 
 
 ---
 
